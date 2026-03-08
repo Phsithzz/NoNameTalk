@@ -69,6 +69,46 @@ class PostRepository {
             }
 
     }
+    fun getMyPostCount(
+        userId: String,
+        callback: (UiState<Int>) -> Unit
+    ){
+        callback(UiState.Loading)
+
+        db.collection("posts")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { result ->
+
+                val count = result.size()
+
+                callback(UiState.Success(count))
+            }
+            .addOnFailureListener {
+                callback(UiState.Error(it.message ?: "Error getMyPostCount"))
+            }
+    }
+    fun getMyPosts(
+        userId: String,
+        callback: (UiState<List<Post>>) -> Unit
+    ){
+        callback(UiState.Loading)
+
+        db.collection("posts")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { result ->
+
+                val posts = result.documents.mapNotNull {
+                    it.toObject(Post::class.java)?.copy(id = it.id)
+                }
+
+                callback(UiState.Success(posts))
+            }
+            .addOnFailureListener {
+                callback(UiState.Error(it.message ?: "Error getMyPosts Repo"))
+            }
+    }
     fun toggleLike(
         postId: String,
         userId: String,
@@ -114,42 +154,6 @@ class PostRepository {
                 callback(UiState.Error(it.message ?: "Toggle Like Failed"))
             }
     }
-//    fun toggleLike(
-//        postId: String,
-//        userId: String,
-//        callback: (UiState<String>) -> Unit
-//    ){
-//        callback(UiState.Loading)
-//
-//        val postRef = db.collection("posts").document(postId)
-//        val likeRef = postRef.collection("likes").document(userId)
-//
-//        db.runTransaction { transaction ->
-//
-//            val likeSnapshot = transaction.get(likeRef)
-//
-//
-//
-//            if(likeSnapshot.exists()){
-//
-//                transaction.delete(likeRef)
-//                transaction.update(postRef,"likeCount", FieldValue.increment(-1))
-//            }else{
-//
-//                transaction.set(likeRef, mapOf("userId" to userId))
-//                transaction.update(postRef,"likeCount", FieldValue.increment(1))
-//            }
-//            null
-//
-//        }
-//            .addOnSuccessListener {
-//                callback(UiState.Success("Toggle Like Success"))
-//
-//            }
-//            .addOnFailureListener {
-//                callback(UiState.Error(it.message ?: "Toggle Like Failed"))
-//            }
-//    }
 
     fun getTrending(
         callback: (UiState<List<Post>>) -> Unit

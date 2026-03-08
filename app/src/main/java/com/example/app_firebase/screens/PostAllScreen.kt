@@ -184,7 +184,7 @@ fun PostAllScreen(
                                                 navController.navigate("postDetail/${post.id}")
                                             },
                                         shape = RoundedCornerShape(10.dp),
-                                        border = BorderStroke(2.dp, Color(0xFF56DFCF)),
+                                        border = BorderStroke(2.dp, Color(0xFF0ABAB5)),
                                         colors = CardDefaults.cardColors(
                                             containerColor = Color.White
                                         )

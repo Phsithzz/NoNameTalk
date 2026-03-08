@@ -17,6 +17,7 @@ import androidx.navigation.navArgument
 import com.example.app_firebase.components.MyBottomBar
 import com.example.app_firebase.screens.AddPostScreen
 import com.example.app_firebase.screens.LoginScreen
+import com.example.app_firebase.screens.MyPostScreen
 import com.example.app_firebase.screens.PostAllScreen
 import com.example.app_firebase.screens.PostDetailScreen
 import com.example.app_firebase.screens.ProfileScreen
@@ -79,7 +80,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) {padding ->
-                    NavHost(navController, startDestination = "posts"){
+                    NavHost(navController, startDestination = "profile"){
 
                         composable("login"){
                             LoginScreen(navController)
@@ -106,6 +107,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("profile"){
                             ProfileScreen(navController)
+                        }
+                        composable("myPost"){
+                            MyPostScreen(navController)
                         }
 
 

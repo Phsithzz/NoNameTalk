@@ -1,5 +1,7 @@
 package com.example.app_firebase.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -51,11 +54,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.app_firebase.R
 import com.example.app_firebase.components.DetailPostTopAppBar
 import com.example.app_firebase.models.Comment
 import com.example.app_firebase.models.Post
@@ -75,7 +81,7 @@ fun PostDetailScreen(
     val actionState by viewModel.actionState.collectAsState()
 
     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-    val primaryTeal = Color(0xFF0ABAB5) // สีหลักของแอป
+    val primaryTeal = Color(0xFF0ABAB5)
 
     var newComment by remember { mutableStateOf("") }
     var isEditingPost by remember { mutableStateOf(false) }
@@ -105,7 +111,7 @@ fun PostDetailScreen(
                 }
             )
         },
-        containerColor = Color(0xFFF8F9FA) // พื้นหลังแอปสีเทาอ่อนให้สบายตา
+        containerColor = Color(0xFFF8F9FA)
     ) { padding ->
         Column(
             modifier = Modifier
@@ -114,7 +120,7 @@ fun PostDetailScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
 
-            // ================== POST SECTION ==================
+
             when (postState) {
                 is UiState.Idle -> {}
 
@@ -130,11 +136,12 @@ fun PostDetailScreen(
                         val isLiked = it.likedBy.contains(currentUserId)
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        // นำการ์ดมาครอบเนื้อหาโพสต์ให้ดูมีสัดส่วน
+
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                            border = BorderStroke(2.dp, primaryTeal),
                             shape = RoundedCornerShape(16.dp)
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
@@ -181,7 +188,7 @@ fun PostDetailScreen(
                                         fontSize = 18.sp,
                                         lineHeight = 26.sp,
 
-                                    )
+                                        )
                                 }
 
                                 Spacer(modifier = Modifier.height(16.dp))
@@ -198,7 +205,7 @@ fun PostDetailScreen(
                                                 editPostText = it.content
                                             },
                                             colors = ButtonDefaults.buttonColors(
-                                                containerColor = Color(0xFF0ABAB5), // สีปุ่มเทาอ่อน
+                                                containerColor = Color(0xFF0ABAB5),
                                                 contentColor = Color.White
                                             ),
                                             shape = CircleShape
@@ -247,7 +254,7 @@ fun PostDetailScreen(
             HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ================== COMMENTS SECTION ==================
+
             Text(
                 text = "Comments",
                 fontWeight = FontWeight.Bold,
@@ -257,7 +264,7 @@ fun PostDetailScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ช่องกรอกคอมเมนต์
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -302,7 +309,7 @@ fun PostDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // รายการคอมเมนต์
+
             when (commentState) {
                 is UiState.Idle -> {}
 
@@ -315,15 +322,18 @@ fun PostDetailScreen(
                     LazyColumn(
                         modifier = Modifier.weight(1f),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        contentPadding = PaddingValues(bottom = 80.dp) // เว้นระยะให้ Navigation Bar ไม่บัง
+                        contentPadding = PaddingValues(bottom = 80.dp)
                     ) {
                         items(comments, key = { it.id ?: it.hashCode() }) { comment ->
                             val isPostOwnerComment = comment.userId == post?.userId
 
                             Card(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth()
+                                    .heightIn(120.dp),
+
                                 shape = RoundedCornerShape(12.dp),
                                 colors = CardDefaults.cardColors(containerColor = Color.White),
+                                border = BorderStroke(2.dp, primaryTeal),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                             ) {
                                 Column(modifier = Modifier.padding(12.dp)) {
@@ -356,15 +366,26 @@ fun PostDetailScreen(
                                             }
                                         }
                                     } else {
-                                        Text(
-                                            text = comment.content,
-                                            color = if (isPostOwnerComment) primaryTeal else Color(0xFF495057),
-                                            fontWeight = if (isPostOwnerComment) FontWeight.SemiBold else FontWeight.Normal,
-                                            fontSize = 15.sp,
-                                            lineHeight = 22.sp
-                                        )
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth() ,
 
-                                        // ... โค้ดส่วนบน ...
+                                        ) {
+                                            Image( painter = painterResource(
+                                                id = if(isPostOwnerComment) R.drawable.post_own else R.drawable.another ),
+                                                contentDescription = "Profile Comment",
+                                                contentScale = ContentScale.Crop,
+                                                modifier = Modifier.size(50.dp)   .clip(CircleShape),
+                                                )
+                                            Spacer(modifier = Modifier.width(6.dp))
+                                            Text( text = comment.content,
+                                                color = if (isPostOwnerComment) primaryTeal else Color.Black,
+                                                fontWeight = if (isPostOwnerComment) FontWeight.SemiBold else FontWeight.Normal,
+                                                fontSize = 15.sp,
+                                                lineHeight = 22.sp
+                                            )
+                                        }
+
+
 
                                         if (comment.userId == currentUserId) {
                                             Row(
@@ -373,25 +394,25 @@ fun PostDetailScreen(
                                                     .padding(top = 4.dp),
                                                 horizontalArrangement = Arrangement.End
                                             ) {
-                                                // ปุ่ม Edit (ใช้ Icon รูปดินสอ)
+
                                                 IconButton(
                                                     onClick = {
                                                         editingCommentId = comment.id
                                                         editText = comment.content
                                                     },
-                                                    modifier = Modifier.size(32.dp) // ปรับขนาดปุ่มให้กระทัดรัด
+                                                    modifier = Modifier.size(32.dp)
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.Default.Edit,
                                                         contentDescription = "Edit Comment",
                                                         tint = primaryTeal,
-                                                        modifier = Modifier.size(20.dp) // ปรับขนาด Icon ให้พอดี
+                                                        modifier = Modifier.size(20.dp)
                                                     )
                                                 }
 
                                                 Spacer(modifier = Modifier.width(8.dp))
 
-                                                // ปุ่ม Delete (ใช้ Icon รูปถังขยะ)
+
                                                 IconButton(
                                                     onClick = { viewModel.deleteComment(postId, comment) },
                                                     modifier = Modifier.size(32.dp)
@@ -399,14 +420,14 @@ fun PostDetailScreen(
                                                     Icon(
                                                         imageVector = Icons.Default.Delete,
                                                         contentDescription = "Delete Comment",
-                                                        tint = Color(0xFFFA5252),
+                                                        tint = Color.Red,
                                                         modifier = Modifier.size(20.dp)
                                                     )
                                                 }
                                             }
                                         }
 
-// ... โค้ดส่วนล่าง ...
+
                                     }
                                 }
                             }
@@ -418,7 +439,7 @@ fun PostDetailScreen(
                 }
             }
 
-            // ================== ACTION STATE ==================
+
             LaunchedEffect(actionState) {
                 when (actionState) {
                     is UiState.Success -> {
@@ -445,7 +466,7 @@ fun PostDetailScreen(
             if (actionState is UiState.Error) {
                 Text(
                     text = (actionState as UiState.Error).message,
-                    color = Color(0xFFFA5252),
+                    color = Color.Red,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }

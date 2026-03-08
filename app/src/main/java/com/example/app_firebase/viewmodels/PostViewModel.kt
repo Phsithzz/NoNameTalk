@@ -5,6 +5,7 @@ import com.example.app_firebase.models.Comment
 import com.example.app_firebase.models.Post
 import com.example.app_firebase.models.states.UiState
 import com.example.app_firebase.repositorys.PostRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -24,6 +25,17 @@ class PostViewModel : ViewModel() {
     private val _trendingState = MutableStateFlow<UiState<List<Post>>>(UiState.Idle)
     val trendingState: StateFlow<UiState<List<Post>>> = _trendingState
 
+    private val _myPostsState =
+        MutableStateFlow<UiState<List<Post>>>(UiState.Loading)
+
+    val myPostsState = _myPostsState
+
+    private val _myPostCountState =
+        MutableStateFlow<UiState<Int>>(UiState.Loading)
+
+    val myPostCountState = _myPostCountState
+
+
     fun resetActionState() {
         _actionState.value = UiState.Idle
     }
@@ -32,6 +44,23 @@ class PostViewModel : ViewModel() {
     fun loadPosts() {
         _postState.value = UiState.Loading
         repo.getPosts { _postState.value = it }
+    }
+    fun loadMyPosts(){
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        repo.getMyPosts(uid){
+            _myPostsState.value = it
+        }
+    }
+
+    fun loadMyPostCount(){
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        repo.getMyPostCount(uid){
+            _myPostCountState.value = it
+        }
     }
 
     fun toggleLike(

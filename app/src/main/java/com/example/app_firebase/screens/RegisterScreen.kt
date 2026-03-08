@@ -133,7 +133,7 @@ fun RegisterScreen(
                 .size(100.dp)
                 .clip(CircleShape)
             ,
-            painter = painterResource(id = R.drawable.profilegoogle),
+            painter = painterResource(id = R.drawable.post_own),
             contentScale = ContentScale.Crop,
             contentDescription = "Icon App No Name Talk"
         )
