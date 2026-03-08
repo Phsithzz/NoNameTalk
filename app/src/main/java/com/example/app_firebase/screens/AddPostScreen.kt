@@ -64,10 +64,9 @@ fun AddPostScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ){
-            Column(
-                modifier = Modifier.padding(14.dp) .fillMaxSize()
-            ) {
+
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -160,7 +159,7 @@ fun AddPostScreen(
                     }
 
                 }
-            }
+
 
 
         }

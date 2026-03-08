@@ -21,10 +21,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ModeComment
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -182,7 +184,7 @@ fun PostAllScreen(
                                                 navController.navigate("postDetail/${post.id}")
                                             },
                                         shape = RoundedCornerShape(10.dp),
-                                        border = BorderStroke(2.dp, Color.Black),
+                                        border = BorderStroke(2.dp, Color(0xFF56DFCF)),
                                         colors = CardDefaults.cardColors(
                                             containerColor = Color.White
                                         )
@@ -194,10 +196,10 @@ fun PostAllScreen(
                                             verticalArrangement = Arrangement.SpaceBetween,
 
                                         ) {
-                                            Text(post.content, fontSize = 16.sp)
+                                            Text(post.content, fontSize = 18.sp)
                                             Row(
                                                 modifier = Modifier.fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically
 
                                             ) {
                                                 Row(
@@ -214,18 +216,18 @@ fun PostAllScreen(
                                                         }
                                                     ) {
                                                         Icon(
-                                                            Icons.Default.ThumbUp,
+                                                            imageVector = if (isLiked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
                                                             contentDescription = "Like",
                                                             tint = if (isLiked) Color.Yellow else Color.Black
                                                         )
                                                     }
-                                                    Spacer(modifier = Modifier.width(10.dp))
+                                                    Spacer(modifier = Modifier.width(2.dp))
                                                     Text(
                                                         "${post.likeCount}"
                                                     )
                                                 }
 
-
+                                                Spacer(modifier = Modifier.width(8.dp))
 
                                                 IconButton(
                                                     onClick = {
@@ -233,7 +235,7 @@ fun PostAllScreen(
                                                     }
                                                 ) {
                                                     Icon(
-                                                        Icons.Default.ModeComment,
+                                                        Icons.Filled.Comment,
                                                         contentDescription = "Comment"
                                                     )
                                                 }
