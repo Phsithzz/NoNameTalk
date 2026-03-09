@@ -80,7 +80,7 @@ fun PostAllScreen(
     var selectedTab by remember { mutableStateOf(0) }
 
     val gradient = Brush.horizontalGradient(
-        colors = listOf(Color(0xFF56DFCF), Color(0xFF0ABAB5))
+        colors = listOf(Color(0xFF0ABAB5), Color(0xFF56DFCF))
     )
 
     val state by if (selectedTab == 0)
