@@ -67,6 +67,7 @@ fun MyPostScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .padding(10.dp)
         ) {
             when(state){
                 is UiState.Idle -> {}
@@ -113,7 +114,7 @@ fun MyPostScreen(
 
                                     Spacer(modifier = Modifier.height(12.dp))
 
-                              
+
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {

@@ -90,7 +90,7 @@ fun ProfileScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(350.dp)
+                    .height(450.dp)
                     .clip(BottomCurveShape(curveHeight = 25.dp))
                     .background(bgGradient)
             )
@@ -109,7 +109,7 @@ fun ProfileScreen(
                         contentDescription = "Image User",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .size(120.dp)
+                            .size(250.dp)
                             .clip(CircleShape)
                             .border(4.dp, Color.White, CircleShape)
                     )
@@ -149,15 +149,12 @@ fun ProfileScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatItem(count = "0", label = "Followers")
-                    VerticalDivider(modifier = Modifier.height(30.dp), color = Color.White.copy(alpha = 0.5f))
-                    StatItem(count = "0", label = "Following")
-                    VerticalDivider(modifier = Modifier.height(30.dp), color = Color.White.copy(alpha = 0.5f))
+
 
 
                     when(postCountState) {
                         is UiState.Idle, is UiState.Loading -> {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.size(24.dp),
                                     color = Color.White,
@@ -176,7 +173,7 @@ fun ProfileScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(74.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
 
                 Column(

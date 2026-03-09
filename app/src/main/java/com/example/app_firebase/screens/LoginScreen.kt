@@ -86,11 +86,7 @@ fun LoginScreen(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Icon Setting",
-                modifier = Modifier.size(40.dp)
-            )
+        Spacer(modifier = Modifier.weight(1f))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -121,7 +117,7 @@ fun LoginScreen(
                 .size(100.dp)
                 .clip(CircleShape)
             ,
-            painter = painterResource(id = R.drawable.post_own),
+            painter = painterResource(id = R.drawable.logo),
             contentScale = ContentScale.Crop,
             contentDescription = "Icon App No Name Talk"
         )

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun ProfileTopAppBar(navController: NavController){
@@ -57,9 +58,13 @@ fun ProfileTopAppBar(navController: NavController){
             )
 
             IconButton(
-                onClick = { navController.navigate("login"){
-                    popUpTo("profile"){inclusive = true}
-                } }
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+
+                    navController.navigate("login") {
+                        popUpTo("profile") { inclusive = true }
+                    }
+                }
 
             ) {
                 Icon(

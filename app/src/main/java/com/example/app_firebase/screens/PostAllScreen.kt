@@ -171,7 +171,7 @@ fun PostAllScreen(
                     }
                     else{
                         LazyColumn(
-                            modifier = Modifier.padding(bottom = 60.dp),
+                            modifier = Modifier.padding(bottom = 70.dp),
                         ) {
                             items(posts, key = { it.id ?: it.hashCode() }) { post ->
                                 val isLiked = post.likedBy.contains(currentUserId)

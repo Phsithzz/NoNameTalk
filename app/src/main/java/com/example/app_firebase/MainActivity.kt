@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) {padding ->
-                    NavHost(navController, startDestination = "profile"){
+                    NavHost(navController, startDestination = "login"){
 
                         composable("login"){
                             LoginScreen(navController)

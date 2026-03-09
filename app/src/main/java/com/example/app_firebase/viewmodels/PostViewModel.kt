@@ -41,8 +41,10 @@ class PostViewModel : ViewModel() {
     }
 
     //post
-    fun loadPosts() {
-        _postState.value = UiState.Loading
+    fun loadPosts(showLoading: Boolean = true) {
+        if (showLoading) {
+            _postState.value = UiState.Loading
+        }
         repo.getPosts { _postState.value = it }
     }
     fun loadMyPosts(){
@@ -68,22 +70,23 @@ class PostViewModel : ViewModel() {
         userId:String
     ){
 
-//        if(_actionState.value is UiState.Loading) return
+        if(_actionState.value is UiState.Loading) return
 
         repo.toggleLike(postId,userId){
             _actionState.value = it
 
 
             if(it is UiState.Success){
-                loadPosts()
-                loadTrending()
+                loadPosts(showLoading = false)
+                loadTrending(showLoading = false)
             }
         }
     }
 
-    fun loadTrending(){
-
-        _trendingState.value = UiState.Loading
+    fun loadTrending(showLoading: Boolean = true){
+        if (showLoading) {
+            _trendingState.value = UiState.Loading
+        }
 
         repo.getTrending {
             _trendingState.value = it
@@ -96,7 +99,7 @@ class PostViewModel : ViewModel() {
         repo.addPost(content) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadPosts()
+                loadPosts(showLoading = false)
             }
         }
     }
@@ -106,7 +109,7 @@ class PostViewModel : ViewModel() {
         repo.updatePost(post) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadPosts()
+                loadPosts(showLoading = false)
             }
         }
     }
@@ -116,13 +119,13 @@ class PostViewModel : ViewModel() {
         repo.deletePost(post) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadPosts()
+                loadPosts(showLoading = false)
             }
         }
     }
 
     //comment
-    fun loadComments(postId: String) {
+    fun loadComments(postId: String, showLoading: Boolean = true) {
         _commentState.value = UiState.Loading
         repo.getComments(postId) {
             _commentState.value = it
@@ -134,7 +137,8 @@ class PostViewModel : ViewModel() {
         repo.addComment(postId, content) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadComments(postId)
+                loadComments(postId,showLoading = false)
+       
             }
         }
     }
@@ -144,7 +148,7 @@ class PostViewModel : ViewModel() {
         repo.updateComment(postId, comment) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadComments(postId)
+                loadComments(postId,showLoading = false)
             }
         }
     }
@@ -154,7 +158,8 @@ class PostViewModel : ViewModel() {
         repo.deleteComment(postId, comment) {
             _actionState.value = it
             if (it is UiState.Success) {
-                loadComments(postId)
+                loadComments(postId,showLoading = false)
+
             }
         }
     }
