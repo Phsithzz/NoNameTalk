@@ -180,7 +180,7 @@ fun RegisterScreen(
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        label = { Text("email") },
+                        label = { Text("Email") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email
                         ),
@@ -197,7 +197,7 @@ fun RegisterScreen(
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text("password") },
+                        label = { Text("Password") },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(30),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -223,7 +223,7 @@ fun RegisterScreen(
                     OutlinedTextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
-                        label = { Text("confirmPassword ") },
+                        label = { Text("ConfirmPassword ") },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(30),
                         colors = OutlinedTextFieldDefaults.colors(

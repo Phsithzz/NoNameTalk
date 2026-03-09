@@ -1,6 +1,7 @@
 package com.example.app_firebase.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -58,7 +59,8 @@ fun DetailPostTopAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             IconButton(
@@ -74,7 +76,7 @@ fun DetailPostTopAppBar(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+
 
             Text(
                 text = "No Name Talk",
@@ -83,7 +85,7 @@ fun DetailPostTopAppBar(
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+
 
             if (isOwner) {
                 Box {

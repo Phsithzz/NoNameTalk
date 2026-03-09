@@ -250,14 +250,15 @@ fun PostDetailScreen(
                                         Icon(
                                             imageVector = Icons.Default.Comment,
                                             contentDescription = "Icon Comment",
-                                            tint = primaryTeal,
+                                            tint = Color.Gray,
                                             modifier = Modifier.size(24.dp),
                                         )
+                                        Spacer(modifier = Modifier.width(4.dp))
                                         Text(
                                             text = "${it.commentCount}",
                                             fontSize = 16.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = primaryTeal
+                                            color = Color.Gray
                                         )
                                     }
                                 }
