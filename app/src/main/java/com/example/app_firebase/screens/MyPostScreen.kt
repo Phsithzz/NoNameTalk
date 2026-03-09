@@ -47,7 +47,7 @@ import com.example.app_firebase.viewmodels.PostViewModel
 fun MyPostScreen(
     navController: NavController,
     viewModel: PostViewModel = viewModel()
-){
+) {
     val state by viewModel.myPostsState.collectAsState()
     val primaryTeal = Color(0xFF0ABAB5)
 
@@ -60,7 +60,7 @@ fun MyPostScreen(
             MyPostTopAppBar(navController)
         },
         containerColor = Color(0xFFF8F9FA)
-    ){ padding ->
+    ) { padding ->
 
 
         Box(
@@ -69,7 +69,7 @@ fun MyPostScreen(
                 .padding(padding)
                 .padding(10.dp)
         ) {
-            when(state){
+            when (state) {
                 is UiState.Idle -> {}
 
                 is UiState.Loading -> {
@@ -85,14 +85,13 @@ fun MyPostScreen(
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
-                        ){
+                        ) {
                             Text("No posts yet")
                         }
-                    }
-                    else{
+                    } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues( bottom = 80.dp),
+                            contentPadding = PaddingValues(bottom = 80.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
 

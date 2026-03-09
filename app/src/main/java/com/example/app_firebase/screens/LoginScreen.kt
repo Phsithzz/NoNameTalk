@@ -20,7 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Settings
+
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -66,7 +66,7 @@ import com.example.app_firebase.viewmodels.AuthViewModel
 fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = viewModel()
-){
+) {
 
     val state by viewModel.authState.collectAsState()
 
@@ -86,7 +86,7 @@ fun LoginScreen(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -101,7 +101,7 @@ fun LoginScreen(
                     onClick = {
                         navController.navigate("register")
                     }
-                ){
+                ) {
                     Text(
                         text = "Sign Up",
                         color = Color.Gray,
@@ -115,8 +115,7 @@ fun LoginScreen(
         Image(
             modifier = Modifier
                 .size(100.dp)
-                .clip(CircleShape)
-            ,
+                .clip(CircleShape),
             painter = painterResource(id = R.drawable.logo),
             contentScale = ContentScale.Crop,
             contentDescription = "Icon App No Name Talk"
@@ -132,7 +131,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = Modifier.fillMaxWidth()
-        ){
+        ) {
             Box(
                 modifier = Modifier
                     .offset(x = 4.dp, y = 4.dp)
@@ -153,15 +152,15 @@ fun LoginScreen(
                 ) {
                     OutlinedTextField(
                         value = email,
-                        onValueChange = {email = it},
-                        label = {Text("Email")},
+                        onValueChange = { email = it },
+                        label = { Text("Email") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email
                         ),
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(30),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor  = Color.Black,
+                            focusedBorderColor = Color.Black,
                             unfocusedBorderColor = Color.Gray
                         ),
                     )
@@ -169,8 +168,8 @@ fun LoginScreen(
 
                     OutlinedTextField(
                         value = password,
-                        onValueChange = {password = it},
-                        label = {Text("password")},
+                        onValueChange = { password = it },
+                        label = { Text("password") },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(
@@ -187,7 +186,7 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(30),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor  = Color.Black,
+                            focusedBorderColor = Color.Black,
                             unfocusedBorderColor = Color.Gray
                         ),
                     )
@@ -202,7 +201,7 @@ fun LoginScreen(
 
         Box(
             modifier = Modifier.fillMaxWidth()
-        ){
+        ) {
 
             Box(
                 modifier = Modifier
@@ -212,18 +211,19 @@ fun LoginScreen(
             )
             Button(
                 onClick = {
-                    viewModel.login(email,password)
+                    viewModel.login(email, password)
                 },
                 enabled = state !is UiState.Loading,
                 shape = RectangleShape,
-                border = BorderStroke(4.dp,Color.Black),
+                border = BorderStroke(4.dp, Color.Black),
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White
                 ),
 
                 elevation = ButtonDefaults.buttonElevation(0.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .height(50.dp)
             ) {
                 Text("Sign In")
@@ -234,10 +234,10 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        when(state){
+        when (state) {
             is UiState.Idle -> {}
 
-            is UiState.Loading ->{
+            is UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
@@ -245,20 +245,19 @@ fun LoginScreen(
 
             is UiState.Success -> {
                 LaunchedEffect(state) {
-                    navController.navigate("posts"){
-                        popUpTo("login"){inclusive = true}
+                    navController.navigate("posts") {
+                        popUpTo("login") { inclusive = true }
                     }
                     viewModel.resetState()
                 }
             }
 
-            is UiState.Error ->{
+            is UiState.Error -> {
                 Text(
                     (state as UiState.Error).message,
                     color = Color.Red
                 )
             }
-
 
 
         }
@@ -289,14 +288,6 @@ fun LoginScreen(
         SocialLogin()
 
     }
-
-
-
-
-
-
-
-
 
 
 }

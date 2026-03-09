@@ -75,7 +75,7 @@ fun AddPostTopAppBar(
                 onClick = onPostClick,
                 enabled = !isPosting
             ) {
-                    Text("Post", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text("Post", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
 
             }
         }

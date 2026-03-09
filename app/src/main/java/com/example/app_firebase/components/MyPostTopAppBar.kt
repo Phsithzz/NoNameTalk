@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -33,12 +31,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun MyPostTopAppBar(navController: NavController){
+fun MyPostTopAppBar(navController: NavController) {
     val gradient = Brush.horizontalGradient(
         colors = listOf(Color(0xFF56DFCF), Color(0xFF0ABAB5))
     )
 
-    var menuExpanded by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -76,14 +73,6 @@ fun MyPostTopAppBar(navController: NavController){
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )
-
-
-
-
-
-
-
-
 
 
         }

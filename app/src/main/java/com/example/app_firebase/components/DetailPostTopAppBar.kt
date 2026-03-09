@@ -17,7 +17,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +37,7 @@ fun DetailPostTopAppBar(
     navController: NavController,
     isOwner: Boolean,
     onDeleteClick: () -> Unit
-){
+) {
 
     val gradient = Brush.horizontalGradient(
         colors = listOf(Color(0xFF56DFCF), Color(0xFF0ABAB5))
@@ -113,11 +113,6 @@ fun DetailPostTopAppBar(
                     }
                 }
             }
-
-
-
-
-
 
 
         }

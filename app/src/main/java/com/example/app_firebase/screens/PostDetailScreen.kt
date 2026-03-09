@@ -34,9 +34,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
+
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
+
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -211,7 +211,11 @@ fun PostDetailScreen(
                                             ),
                                             shape = CircleShape
                                         ) {
-                                            Text("Edit Post", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                                            Text(
+                                                "Edit Post",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
                                         }
                                     } else {
                                         Spacer(modifier = Modifier.weight(1f))
@@ -261,6 +265,7 @@ fun PostDetailScreen(
                         }
                     }
                 }
+
                 is UiState.Error -> {
                     Text((postState as UiState.Error).message, color = Color.Red)
                 }
@@ -332,6 +337,7 @@ fun PostDetailScreen(
                 is UiState.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 }
+
                 is UiState.Success -> {
                     val comments = (commentState as UiState.Success<List<Comment>>).data
 
@@ -344,7 +350,8 @@ fun PostDetailScreen(
                             val isPostOwnerComment = comment.userId == post?.userId
 
                             Card(
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier
+                                    .fillMaxWidth()
                                     .heightIn(120.dp),
 
                                 shape = RoundedCornerShape(12.dp),
@@ -374,26 +381,38 @@ fun PostDetailScreen(
                                             }
                                             TextButton(
                                                 onClick = {
-                                                    viewModel.updateComment(postId, comment.copy(content = editText))
+                                                    viewModel.updateComment(
+                                                        postId,
+                                                        comment.copy(content = editText)
+                                                    )
                                                     editingCommentId = null
                                                 }
                                             ) {
-                                                Text("Save", color = primaryTeal, fontWeight = FontWeight.Bold)
+                                                Text(
+                                                    "Save",
+                                                    color = primaryTeal,
+                                                    fontWeight = FontWeight.Bold
+                                                )
                                             }
                                         }
                                     } else {
                                         Row(
-                                            modifier = Modifier.fillMaxWidth() ,
+                                            modifier = Modifier.fillMaxWidth(),
 
-                                        ) {
-                                            Image( painter = painterResource(
-                                                id = if(isPostOwnerComment) R.drawable.post_own else R.drawable.another ),
+                                            ) {
+                                            Image(
+                                                painter = painterResource(
+                                                    id = if (isPostOwnerComment) R.drawable.post_own else R.drawable.another
+                                                ),
                                                 contentDescription = "Profile Comment",
                                                 contentScale = ContentScale.Crop,
-                                                modifier = Modifier.size(50.dp)   .clip(CircleShape),
-                                                )
+                                                modifier = Modifier
+                                                    .size(50.dp)
+                                                    .clip(CircleShape),
+                                            )
                                             Spacer(modifier = Modifier.width(6.dp))
-                                            Text( text = comment.content,
+                                            Text(
+                                                text = comment.content,
                                                 color = if (isPostOwnerComment) primaryTeal else Color.Black,
                                                 fontWeight = if (isPostOwnerComment) FontWeight.SemiBold else FontWeight.Normal,
                                                 fontSize = 18.sp,
@@ -430,7 +449,12 @@ fun PostDetailScreen(
 
 
                                                 IconButton(
-                                                    onClick = { viewModel.deleteComment(postId, comment) },
+                                                    onClick = {
+                                                        viewModel.deleteComment(
+                                                            postId,
+                                                            comment
+                                                        )
+                                                    },
                                                     modifier = Modifier.size(32.dp)
                                                 ) {
                                                     Icon(
@@ -450,6 +474,7 @@ fun PostDetailScreen(
                         }
                     }
                 }
+
                 is UiState.Error -> {
                     Text((commentState as UiState.Error).message, color = Color.Red)
                 }
@@ -465,9 +490,11 @@ fun PostDetailScreen(
                         }
                         viewModel.resetActionState()
                     }
+
                     is UiState.Error -> {
                         viewModel.resetActionState()
                     }
+
                     else -> {}
                 }
             }

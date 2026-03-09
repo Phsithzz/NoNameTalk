@@ -11,23 +11,23 @@ class AuthRepository {
     private val db = FirebaseFirestore.getInstance()
 
     fun register(
-        name:String,
-        email:String,
-        password:String,
-        callback:(UiState<String>) -> Unit
-    ){
+        name: String,
+        email: String,
+        password: String,
+        callback: (UiState<String>) -> Unit
+    ) {
 
         callback(UiState.Loading)
 
-        auth.createUserWithEmailAndPassword(email,password)
-            .addOnSuccessListener { result->
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener { result ->
                 val uid = result.user?.uid
                 if (uid == null) {
                     callback(UiState.Error("UID is null"))
                     return@addOnSuccessListener
                 }
 
-                val user = User(uid,name,email)
+                val user = User(uid, name, email)
 
                 db.collection("users")
                     .document(uid)
@@ -40,7 +40,7 @@ class AuthRepository {
                     }
             }
             .addOnFailureListener {
-                callback(UiState.Error(it.message ?:"Error Register Repo"))
+                callback(UiState.Error(it.message ?: "Error Register Repo"))
             }
 
     }
@@ -49,15 +49,15 @@ class AuthRepository {
         email: String,
         password: String,
         callback: (UiState<String>) -> Unit
-    ){
+    ) {
         callback(UiState.Loading)
 
-        auth.signInWithEmailAndPassword(email,password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 callback(UiState.Success("Login Success"))
             }
             .addOnFailureListener {
-                callback(UiState.Error(it.message ?:"Error Login Repo"))
+                callback(UiState.Error(it.message ?: "Error Login Repo"))
             }
     }
 

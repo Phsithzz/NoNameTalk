@@ -17,10 +17,10 @@ class PostRepository {
 
     //post
     fun addPost(
-
         content:String,
         callback: (UiState<String>)->Unit
     ){
+
         val userId = auth.currentUser?.uid
         if(userId == null){
             callback(UiState.Error("User not logged in"))

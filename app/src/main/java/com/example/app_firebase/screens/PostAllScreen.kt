@@ -10,26 +10,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
+
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+
 import androidx.compose.material.icons.filled.Comment
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ModeComment
-import androidx.compose.material.icons.filled.Person
+
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
+
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,9 +33,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -107,7 +101,7 @@ fun PostAllScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(gradient)
-                ){
+                ) {
                     TabRow(
                         selectedTabIndex = selectedTab,
                         containerColor = Color.Transparent,
@@ -120,17 +114,17 @@ fun PostAllScreen(
                             )
                         }
 
-                        ) {
-                        tab.forEachIndexed { index,t->
+                    ) {
+                        tab.forEachIndexed { index, t ->
                             Tab(
                                 selected = selectedTab == index,
-                                onClick = {selectedTab = index},
+                                onClick = { selectedTab = index },
                                 text = {
                                     Text(
-                                    t,fontSize = 20.sp,
+                                        t, fontSize = 20.sp,
                                         fontWeight = FontWeight.Bold,
                                         color = if (selectedTab == index) Color.Yellow else Color.White
-                                )
+                                    )
                                 }
                             )
                         }
@@ -140,7 +134,7 @@ fun PostAllScreen(
             }
         },
 
-    ) { padding ->
+        ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -166,83 +160,80 @@ fun PostAllScreen(
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
-                        ){
+                        ) {
                             Text("No posts yet")
                         }
-                    }
-                    else{
+                    } else {
                         LazyColumn(
                             modifier = Modifier.padding(bottom = 70.dp),
                         ) {
                             items(posts, key = { it.id ?: it.hashCode() }) { post ->
                                 val isLiked = post.likedBy.contains(currentUserId)
-                                    Card(
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .heightIn(min = 200.dp)
+                                        .padding(10.dp)
+                                        .clickable {
+                                            navController.navigate("postDetail/${post.id}")
+                                        },
+                                    shape = RoundedCornerShape(10.dp),
+                                    border = BorderStroke(2.dp, Color(0xFF0ABAB5)),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.White
+                                    )
+                                ) {
+                                    Column(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .heightIn(min = 200.dp)
-                                            .padding(10.dp)
-                                            .clickable {
-                                                navController.navigate("postDetail/${post.id}")
-                                            },
-                                        shape = RoundedCornerShape(10.dp),
-                                        border = BorderStroke(2.dp, Color(0xFF0ABAB5)),
-                                        colors = CardDefaults.cardColors(
-                                            containerColor = Color.White
-                                        )
-                                    ) {
-                                        Column(
-                                            modifier = Modifier    .fillMaxWidth()
-                                                .heightIn(min = 200.dp)
-                                                .padding(vertical = 12.dp, horizontal = 10.dp),
-                                            verticalArrangement = Arrangement.SpaceBetween,
+                                            .padding(vertical = 12.dp, horizontal = 10.dp),
+                                        verticalArrangement = Arrangement.SpaceBetween,
 
                                         ) {
-                                            Text(post.content, fontSize = 18.sp)
+                                        Text(post.content, fontSize = 18.sp)
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically
+
+                                        ) {
                                             Row(
-                                                modifier = Modifier.fillMaxWidth(),
                                                 verticalAlignment = Alignment.CenterVertically
-
                                             ) {
-                                                Row(
-                                                    verticalAlignment = Alignment.CenterVertically
-                                                ) {
-                                                    IconButton(
-                                                        onClick = {
-                                                            currentUserId?.let { uid ->
-                                                                post.id.let { postId ->
-                                                                    viewModel.toggleLike(postId, uid)
+                                                IconButton(
+                                                    onClick = {
+                                                        currentUserId?.let { uid ->
+                                                            post.id.let { postId ->
+                                                                viewModel.toggleLike(postId, uid)
 
-                                                                }
                                                             }
                                                         }
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = if (isLiked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
-                                                            contentDescription = "Like",
-                                                            tint = if (isLiked) Color.Yellow else Color.Black
-                                                        )
                                                     }
-                                                    Spacer(modifier = Modifier.width(2.dp))
-                                                    Text(
-                                                        "${post.likeCount}"
+                                                ) {
+                                                    Icon(
+                                                        imageVector = if (isLiked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
+                                                        contentDescription = "Like",
+                                                        tint = if (isLiked) Color.Yellow else Color.Black
                                                     )
-
-                                                    Spacer(modifier = Modifier.width(16.dp))
-
-
-                                                    IconButton(
-                                                        onClick = { navController.navigate("postDetail/${post.id}") }
-                                                    ) {
-                                                        Icon(
-                                                            imageVector = Icons.Default.Comment,
-                                                            contentDescription = "Comment",
-                                                            tint = Color.Gray
-                                                        )
-                                                    }
-                                                    Text("${post.commentCount}")
                                                 }
+                                                Spacer(modifier = Modifier.width(2.dp))
+                                                Text(
+                                                    "${post.likeCount}"
+                                                )
+
+                                                Spacer(modifier = Modifier.width(16.dp))
 
 
+                                                IconButton(
+                                                    onClick = { navController.navigate("postDetail/${post.id}") }
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Comment,
+                                                        contentDescription = "Comment",
+                                                        tint = Color.Gray
+                                                    )
+                                                }
+                                                Text("${post.commentCount}")
                                             }
 
 
@@ -252,19 +243,13 @@ fun PostAllScreen(
                                     }
 
 
+                                }
 
 
                             }
 
 
-
-
-
-
-
-
                         }
-
 
 
                     }

@@ -3,7 +3,7 @@ package com.example.app_firebase.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,10 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
+
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -39,8 +36,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -72,14 +68,14 @@ import com.example.app_firebase.viewmodels.AuthViewModel
 fun RegisterScreen(
     navController: NavController,
     viewModel: AuthViewModel = viewModel()
-){
+) {
 
     val state by viewModel.authState.collectAsState()
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmPassword by remember{mutableStateOf("")}
+    var confirmPassword by remember { mutableStateOf("") }
 
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
@@ -110,10 +106,10 @@ fun RegisterScreen(
                 )
                 Spacer(modifier = Modifier.width(2.dp))
                 TextButton(
-             onClick = {
-                 navController.navigate("login")
-             }
-                ){
+                    onClick = {
+                        navController.navigate("login")
+                    }
+                ) {
                     Text(
                         text = "Sign In",
                         color = Color.Gray,
@@ -127,8 +123,7 @@ fun RegisterScreen(
         Image(
             modifier = Modifier
                 .size(100.dp)
-                .clip(CircleShape)
-            ,
+                .clip(CircleShape),
             painter = painterResource(id = R.drawable.logo),
             contentScale = ContentScale.Crop,
             contentDescription = "Icon App No Name Talk"
@@ -153,105 +148,107 @@ fun RegisterScreen(
                     .matchParentSize()
                     .background(Color.Black, RoundedCornerShape(6.dp))
             )
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(4.dp, Color.Black),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                border = BorderStroke(4.dp, Color.Black),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = name,
-                            onValueChange = {name = it},
-                            label = {Text("Name")},
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(30),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor  = Color.Black,
-                                unfocusedBorderColor = Color.Gray
-                            ),
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text("Name") },
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(30),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray
+                        ),
 
 
                         )
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                        OutlinedTextField(
-                            value = email,
-                            onValueChange = {email = it},
-                            label = {Text("email")},
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Email
-                            ),
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(30),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor  = Color.Black,
-                                unfocusedBorderColor = Color.Gray
-                            )
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("email") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(30),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray
                         )
+                    )
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                        OutlinedTextField(
-                            value = password,
-                            onValueChange = {password = it},
-                            label = {Text("password")},
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(30),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor  = Color.Black,
-                                unfocusedBorderColor = Color.Gray
-                            ),
-                            trailingIcon = {
-                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Icon(
-                                        imageVector =
-                                            if (passwordVisible) Icons.Default.Visibility
-                                            else Icons.Default.VisibilityOff,
-                                        contentDescription = "Toggle password visibility"
-                                    )
-                                }
-                            },
-                            visualTransformation =
-                                if (passwordVisible) VisualTransformation.None
-                                else PasswordVisualTransformation(),
-                        )
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("password") },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(30),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray
+                        ),
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(
+                                    imageVector =
+                                        if (passwordVisible) Icons.Default.Visibility
+                                        else Icons.Default.VisibilityOff,
+                                    contentDescription = "Toggle password visibility"
+                                )
+                            }
+                        },
+                        visualTransformation =
+                            if (passwordVisible) VisualTransformation.None
+                            else PasswordVisualTransformation(),
+                    )
 
-                        Spacer(modifier = Modifier.height(16.dp))
-                        OutlinedTextField(
-                            value = confirmPassword ,
-                            onValueChange = {confirmPassword  = it},
-                            label = {Text("confirmPassword ")},
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(30),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor  = Color.Black,
-                                unfocusedBorderColor = Color.Gray
-                            ),
-                            trailingIcon = {
-                                IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                                    Icon(
-                                        imageVector =
-                                            if (confirmPasswordVisible) Icons.Default.Visibility
-                                            else Icons.Default.VisibilityOff,
-                                        contentDescription = "Toggle confirmPassword visibility"
-                                    )
-                                }
-                            },
-                            visualTransformation =
-                                if (confirmPasswordVisible) VisualTransformation.None
-                                else PasswordVisualTransformation(),
-                        )
-                    }
-
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        label = { Text("confirmPassword ") },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(30),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray
+                        ),
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                confirmPasswordVisible = !confirmPasswordVisible
+                            }) {
+                                Icon(
+                                    imageVector =
+                                        if (confirmPasswordVisible) Icons.Default.Visibility
+                                        else Icons.Default.VisibilityOff,
+                                    contentDescription = "Toggle confirmPassword visibility"
+                                )
+                            }
+                        },
+                        visualTransformation =
+                            if (confirmPasswordVisible) VisualTransformation.None
+                            else PasswordVisualTransformation(),
+                    )
                 }
+
+            }
 
         }
 
@@ -272,10 +269,10 @@ fun RegisterScreen(
             )
             Button(
                 onClick = {
-                    viewModel.register(name,email,password,confirmPassword)
+                    viewModel.register(name, email, password, confirmPassword)
                 },
                 shape = RectangleShape,
-                border = BorderStroke(4.dp,Color.Black),
+                border = BorderStroke(4.dp, Color.Black),
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White
@@ -288,29 +285,29 @@ fun RegisterScreen(
             ) {
                 Text("Sign Up")
             }
-            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        when(state){
+        when (state) {
             is UiState.Idle -> {}
 
-            is UiState.Loading ->{
+            is UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
 
-            is UiState.Success ->{
+            is UiState.Success -> {
                 LaunchedEffect(state) {
-                    navController.navigate("login"){
-                        popUpTo("register"){inclusive = true}
+                    navController.navigate("login") {
+                        popUpTo("register") { inclusive = true }
                     }
                     viewModel.resetState()
                 }
             }
 
-            is UiState.Error ->{
+            is UiState.Error -> {
                 Text(
                     (state as UiState.Error).message,
                     color = Color.Red
@@ -347,10 +344,6 @@ fun RegisterScreen(
 
 
     }
-
-
-
-
 
 
 }
