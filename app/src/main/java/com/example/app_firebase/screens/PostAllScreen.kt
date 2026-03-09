@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ModeComment
 import androidx.compose.material.icons.filled.Person
@@ -225,20 +226,23 @@ fun PostAllScreen(
                                                     Text(
                                                         "${post.likeCount}"
                                                     )
-                                                }
 
-                                                Spacer(modifier = Modifier.width(8.dp))
+                                                    Spacer(modifier = Modifier.width(16.dp))
 
-                                                IconButton(
-                                                    onClick = {
-                                                        navController.navigate("postDetail/${post.id}")
+
+                                                    IconButton(
+                                                        onClick = { navController.navigate("postDetail/${post.id}") }
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Comment,
+                                                            contentDescription = "Comment",
+                                                            tint = Color.Gray
+                                                        )
                                                     }
-                                                ) {
-                                                    Icon(
-                                                        Icons.Filled.Comment,
-                                                        contentDescription = "Comment"
-                                                    )
+                                                    Text("${post.commentCount}")
                                                 }
+
+
                                             }
 
 

@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Send
@@ -239,6 +240,21 @@ fun PostDetailScreen(
                                             fontWeight = FontWeight.Bold,
                                             color = if (isLiked) primaryTeal else Color.Gray
                                         )
+
+                                        Spacer(modifier = Modifier.width(10.dp))
+
+                                        Icon(
+                                            imageVector = Icons.Default.Comment,
+                                            contentDescription = "Icon Comment",
+                                            tint = primaryTeal,
+                                            modifier = Modifier.size(24.dp),
+                                        )
+                                        Text(
+                                            text = "${it.commentCount}",
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = primaryTeal
+                                        )
                                     }
                                 }
                             }
@@ -288,7 +304,7 @@ fun PostDetailScreen(
 
                 IconButton(
                     onClick = {
-                        if (newComment.isNotBlank()) {
+                        if (newComment.isNotBlank() && newComment.length > 1) {
                             viewModel.addComment(postId, newComment)
                             newComment = ""
                         }
@@ -296,13 +312,13 @@ fun PostDetailScreen(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(if (newComment.length > 5) primaryTeal else Color(0xFFE9ECEF))
+                        .background(if (newComment.length > 1) primaryTeal else Color(0xFFE9ECEF))
                 ) {
                     Icon(
                         Icons.Default.Send,
                         contentDescription = "Send",
                         modifier = Modifier.size(20.dp),
-                        tint = if (newComment.length > 5) Color.White else Color.Gray
+                        tint = if (newComment.length > 1) Color.White else Color.Gray
                     )
                 }
             }
@@ -380,7 +396,7 @@ fun PostDetailScreen(
                                             Text( text = comment.content,
                                                 color = if (isPostOwnerComment) primaryTeal else Color.Black,
                                                 fontWeight = if (isPostOwnerComment) FontWeight.SemiBold else FontWeight.Normal,
-                                                fontSize = 15.sp,
+                                                fontSize = 18.sp,
                                                 lineHeight = 22.sp
                                             )
                                         }

@@ -8,6 +8,6 @@ data class Post(
     val userId:String = "",
     val createdAt: Timestamp? = null,
     val likeCount: Long = 0,
-
-    val likedBy: List<String> = emptyList()
+    val likedBy: List<String> = emptyList(),
+    val commentCount:Long = 0,
 )

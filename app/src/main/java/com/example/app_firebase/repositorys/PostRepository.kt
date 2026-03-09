@@ -34,6 +34,7 @@ class PostRepository {
             "userId" to userId,
             "createdAt" to Timestamp.now(),
             "likeCount" to 0,
+            "commentCount" to 0,
             "likedBy" to emptyList<String>()
         )
 
@@ -88,6 +89,9 @@ class PostRepository {
                 callback(UiState.Error(it.message ?: "Error getMyPostCount"))
             }
     }
+
+
+
     fun getMyPosts(
         userId: String,
         callback: (UiState<List<Post>>) -> Unit
@@ -237,36 +241,31 @@ class PostRepository {
     }
 
     //comment
-    fun addComment(
-        postId:String,
-        content:String,
-        callback: (UiState<String>) -> Unit
-    ){
-
+    fun addComment(postId: String, content: String, callback: (UiState<String>) -> Unit) {
         val userId = auth.currentUser?.uid
-        if(userId == null){
+        if (userId == null) {
             callback(UiState.Error("User not logged in"))
             return
         }
-
         callback(UiState.Loading)
 
+        val postRef = db.collection("posts").document(postId)
+        val newCommentRef = postRef.collection("comments").document()
+
         val comment = Comment(
+            id = newCommentRef.id,
             postId = postId,
             content = content,
-            userId = userId
+            userId = userId,
+            createdAt = Timestamp.now()
         )
 
-        db.collection("posts")
-            .document(postId)
-            .collection("comments")
-            .add(comment)
-            .addOnSuccessListener {
-                callback(UiState.Success("Comment Added"))
-            }
-            .addOnFailureListener {
-                callback(UiState.Error(it.message ?:"Error addComment Repo"))
-            }
+        db.runBatch { batch ->
+            batch.set(newCommentRef, comment)
+            batch.update(postRef, "commentCount", FieldValue.increment(1))
+        }
+            .addOnSuccessListener { callback(UiState.Success("Comment Added")) }
+            .addOnFailureListener { callback(UiState.Error(it.message ?: "Error addComment")) }
     }
 
     fun getComments(
@@ -279,6 +278,7 @@ class PostRepository {
         db.collection("posts")
             .document(postId)
             .collection("comments")
+            .orderBy("createdAt", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { result->
                 val comments = result.documents.mapNotNull {
@@ -324,37 +324,24 @@ class PostRepository {
             }
     }
 
-    fun deleteComment(
-        postId: String,
-        comment: Comment,
-        callback: (UiState<String>) -> Unit
-    ){
-
+    fun deleteComment(postId: String, comment: Comment, callback: (UiState<String>) -> Unit) {
         val currentUserId = auth.currentUser?.uid
-        if(currentUserId == null){
-            callback(UiState.Error("User not logged in"))
+        if (currentUserId == null || comment.userId != currentUserId) {
+            callback(UiState.Error("Unauthorized"))
             return
         }
-
-        if(comment.userId != currentUserId){
-            callback(UiState.Error("Not your comment"))
-            return
-        }
-
         callback(UiState.Loading)
 
-        db.collection("posts")
-            .document(postId)
-            .collection("comments")
-            .document(comment.id)
-            .delete()
-            .addOnSuccessListener {
-                callback(UiState.Success("Comment Deleted"))
-            }
-            .addOnFailureListener {
-                callback(UiState.Error(it.message ?: "Error deleteComment Repo"))
-            }
+        val postRef = db.collection("posts").document(postId)
+        val commentRef = postRef.collection("comments").document(comment.id)
 
+
+        db.runBatch { batch ->
+            batch.delete(commentRef)
+            batch.update(postRef, "commentCount", FieldValue.increment(-1))
+        }
+            .addOnSuccessListener { callback(UiState.Success("Comment Deleted")) }
+            .addOnFailureListener { callback(UiState.Error(it.message ?: "Error deleteComment")) }
     }
 
 

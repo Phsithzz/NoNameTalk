@@ -139,14 +139,14 @@ fun ProfileScreen(
                     color = Color.White
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 40.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
@@ -154,7 +154,10 @@ fun ProfileScreen(
 
                     when(postCountState) {
                         is UiState.Idle, is UiState.Loading -> {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.size(24.dp),
                                     color = Color.White,
