@@ -81,61 +81,71 @@ fun MyPostScreen(
 
                 is UiState.Success -> {
                     val posts = (state as UiState.Success<List<Post>>).data
+                    if (posts.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ){
+                            Text("No posts yet")
+                        }
+                    }
+                    else{
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues( bottom = 80.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
 
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues( bottom = 80.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-
-                        items(posts) { post ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clip(RoundedCornerShape(16.dp))
-                                    .clickable {
-                                        navController.navigate("postDetail/${post.id}")
-                                    },
-                                border = BorderStroke(2.dp, Color(0xFF0ABAB5)),
-                                colors = CardDefaults.cardColors(containerColor = Color.White),
-                                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                                shape = RoundedCornerShape(16.dp)
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(16.dp)
+                            items(posts) { post ->
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .clickable {
+                                            navController.navigate("postDetail/${post.id}")
+                                        },
+                                    border = BorderStroke(2.dp, Color(0xFF0ABAB5)),
+                                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                                    shape = RoundedCornerShape(16.dp)
                                 ) {
-
-                                    Text(
-                                        text = post.content,
-                                        fontSize = 16.sp,
-                                        lineHeight = 24.sp,
-                                        color = Color.Black
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
+                                    Column(
+                                        modifier = Modifier.padding(16.dp)
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Default.ThumbUp,
-                                            contentDescription = "Likes",
-                                            tint = primaryTeal,
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(6.dp))
+
                                         Text(
-                                            text = "${post.likeCount} Likes",
-                                            fontSize = 14.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = Color(0xFF495057)
+                                            text = post.content,
+                                            fontSize = 16.sp,
+                                            lineHeight = 24.sp,
+                                            color = Color.Black
                                         )
+
+                                        Spacer(modifier = Modifier.height(12.dp))
+
+
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.ThumbUp,
+                                                contentDescription = "Likes",
+                                                tint = primaryTeal,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Spacer(modifier = Modifier.width(6.dp))
+                                            Text(
+                                                text = "${post.likeCount} Likes",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Color(0xFF495057)
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
                 }
 
                 is UiState.Error -> {
